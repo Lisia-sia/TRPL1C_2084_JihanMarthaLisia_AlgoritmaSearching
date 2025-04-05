@@ -1,0 +1,41 @@
+import 'dart:io';
+
+void main() {
+  stdout.write("Masukkan batas atas angka (n): ");
+  int? n = int.tryParse(stdin.readLineSync()!);
+
+  if (n == null || n <= 0) {
+    print("Harap masukkan angka bulat positif.");
+    return;
+  }
+
+  int low = 1;
+  int high = n;
+  while (low < high) {
+    int mid = (low + high) ~/ 2;
+    stdout.write("Apakah angka kamu kurang dari $mid? (yes/no): ");
+    String? response = stdin.readLineSync();
+
+    if (response == null || (response != 'yes' && response != 'no')) {
+      print("Mohon jawab dengan 'yes' atau 'no'.");
+      continue;
+    }
+
+    if (response == 'yes') {
+      high = mid - 1;
+    } else {
+      low = mid;
+    }
+
+    if (low == high || low + 1 == high) {
+      stdout.write("Apakah angka kamu $low? (yes/no): ");
+      String? finalCheck = stdin.readLineSync();
+      if (finalCheck == 'yes') {
+        print("Berarti angka kamu adalah $low!");
+      } else {
+        print("Berarti angka kamu adalah $high!");
+      }
+      break;
+    }
+  }
+}

@@ -1,0 +1,45 @@
+import 'dart:io';
+
+void main() {
+  // 1. Data acak (tidak urut)
+  List<int> data = [42, 17, 23, 8, 34, 99, 15];
+
+  // 2. Simpan data dengan indeks aslinya
+  List<MapEntry<int, int>> indexedData =
+      data.asMap().entries.map((e) => MapEntry(e.key, e.value)).toList();
+
+  // 3. Urutkan berdasarkan nilainya
+  indexedData.sort((a, b) => a.value.compareTo(b.value));
+
+  // 4. Minta input data yang dicari
+  stdout.write("Masukkan angka yang ingin dicari: ");
+  int? key = int.tryParse(stdin.readLineSync()!);
+  if (key == null) {
+    print("Input tidak valid.");
+    return;
+  }
+
+  // 5. Binary Search
+  int low = 0;
+  int high = indexedData.length - 1;
+  int? originalIndex;
+
+  while (low <= high) {
+    int mid = (low + high) ~/ 2;
+    if (indexedData[mid].value == key) {
+      originalIndex = indexedData[mid].key;
+      break;
+    } else if (indexedData[mid].value < key) {
+      low = mid + 1;
+    } else {
+      high = mid - 1;
+    }
+  }
+
+  // 6. Tampilkan hasil
+  if (originalIndex != null) {
+    print("Angka $key ditemukan pada indeks asli: $originalIndex");
+  } else {
+    print("Angka $key tidak ditemukan dalam data.");
+  }
+}
